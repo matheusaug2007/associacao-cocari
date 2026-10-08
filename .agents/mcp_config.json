@@ -1,0 +1,52 @@
+{
+  "mcpServers": {
+    "21st": {
+      "serverUrl": "https://21st.dev/api/mcp",
+      "headers": {
+        "x-api-key": "21st_sk_7a9225cdd4561a5dca13b496645744cf4d0cb7e8ffadf5522b18fcd7a76c5703"
+      }
+    },
+    "watermelon": {
+      "serverUrl": "https://mcp.watermelon.sh/mcp"
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "shadcn@latest",
+        "mcp"
+      ]
+    },
+    "context7": {
+      "serverUrl": "https://mcp.context7.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ctx7sk-75821b1c-f30e-4371-90e3-90a53709afbd"
+      }
+    },
+    "figma": {
+      "serverUrl": "http://127.0.0.1:3845/mcp"
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--browser-url=http://127.0.0.1:9222"
+      ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "gsap-master": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vinhnguyen/gsap-mcp"
+      ]
+    }
+  }
+}
