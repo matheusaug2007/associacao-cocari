@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAC — Associação Atlética Cocari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ==========================================
+    TELA 1: LOGIN
+  =========================================== -->
+  <section id="view-login" class="view-screen active">
+    <div class="login-bg">
+      <img src="imagens/associacao.png" alt="Associação Atlética Cocari" class="login-bg-img">
+      <div class="login-bg-overlay"></div>
+    </div>
+
+    <div class="login-layout">
+      <!-- Coluna Esquerda: Branding -->
+      <div class="login-brand-col">
+        <img src="imagens/associacao-logo.png" alt="AAC Logo" class="brand-aac-logo">
+        <h1>Bem-vindo ao<br>seu clube.</h1>
+        <p>Reserve espaços, acesse sua carteirinha e acompanhe tudo em um único lugar.</p>
+        <div class="login-feature-list">
+          <div class="lf-item"><i data-icon="calendar-check"></i><span>Reserva de espaços online</span></div>
+          <div class="lf-item"><i data-icon="qrcode"></i><span>Carteirinha digital</span></div>
+          <div class="lf-item"><i data-icon="pix"></i><span>Pagamento via PIX</span></div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: Formulário -->
+      <div class="login-form-col">
+        <div class="login-card">
+          <img src="imagens/cocari-logo-branca.png" alt="Cocari" class="login-cocari-logo">
+          <h2>Acessar Portal</h2>
+
+          <form onsubmit="event.preventDefault(); navigateTo('home');">
+            <div class="field">
+              <label>Matrícula ou E-mail</label>
+              <div class="input-row">
+                <i data-icon="user" class="input-icon"></i>
+                <input type="text" autocomplete="username" placeholder="Sua matrícula ou e-mail" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-top-row">
+                <label>Senha</label>
+                <button type="button" class="link-btn" onclick="navigateTo('forgot')">Esqueci a senha</button>
+              </div>
+              <div class="input-row">
+                <i data-icon="lock" class="input-icon"></i>
+                <input type="password" id="login-pwd" autocomplete="current-password" placeholder="Sua senha" required>
+                <button type="button" class="eye-btn" id="eye-btn-login" onclick="togglePwd('login-pwd', this)">
+                  <i data-icon="eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary mt-4">
+              Entrar<i data-icon="arrow-right" class="btn-ico"></i>
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+    TELA 2: RECUPERAR SENHA
+  =========================================== -->
+  <section id="view-forgot" class="view-screen">
+    <div class="login-bg">
+      <img src="imagens/associacao.png" alt="" class="login-bg-img">
+      <div class="login-bg-overlay dark-overlay"></div>
+    </div>
+
+    <div class="centered-auth-wrap">
+      <div class="login-card forgot-card">
+        <button class="back-link" onclick="navigateTo('login')">
+          <i data-icon="arrow-left"></i> Voltar
+        </button>
+
+        <div class="key-icon-wrap">
+          <i data-icon="key"></i>
+        </div>
+        <h2>Recuperar Senha</h2>
+        <p class="forgot-desc">Informe sua matrícula ou e-mail para receber as instruções de redefinição.</p>
+
+        <form onsubmit="event.preventDefault(); forgotSubmit();">
+          <div class="field">
+            <label>Matrícula ou E-mail</label>
+            <div class="input-row">
+              <i data-icon="envelope" class="input-icon"></i>
+              <input type="text" id="forgot-val" value="0-1106" placeholder="Seu e-mail ou matrícula" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary mt-4" id="btn-forgot">
+            Enviar instruções
+          </button>
+        </form>
+
+        <div id="forgot-ok" class="feedback-ok hidden">
+          <i data-icon="circle-check"></i>
+          Instruções enviadas! Verifique seu e-mail e WhatsApp.
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+    TELA 3: HOME DO ASSOCIADO
+  =========================================== -->
+  <section id="view-home" class="view-screen">
+
+    <!-- Navbar -->
+    <header class="app-bar">
+      <div class="app-bar-inner">
+        <div class="app-bar-left">
+          <img src="imagens/associacao-logo.png" alt="AAC" class="app-logo">
+        </div>
+        <div class="app-bar-right" style="position:relative;">
+          <button class="icon-btn notif-btn" id="notif-btn-trigger" onclick="toggleNotifications()"
+            style="position:relative;" aria-label="Notificações">
+            <i data-icon="bell"></i>
+            <span id="notif-badge" class="notif-badge-pill">2</span>
+          </button>
+          <div class="avatar-trigger" onclick="navigateTo('profile')">
+            <div class="avatar-circle">ML</div>
+            <div class="avatar-meta">
+              <span>Matheus Augusto</span>
+              <small>Título 0-1106</small>
+            </div>
+            <i data-icon="chevron-down" class="chev"></i>
+          </div>
+          <button class="icon-btn logout-btn" onclick="navigateTo('login')" title="Sair">
+            <i data-icon="logout"></i>
+          </button>
+
+          <!-- Drawer de Notificações -->
+          <div id="notif-panel" class="notif-panel hidden">
+            <div class="notif-panel-header">
+              <h4>Notificações</h4>
+              <button type="button" onclick="markAllNotificationsAsRead()">Marcar como lidas</button>
+            </div>
+            <div class="notif-panel-list" id="notif-panel-list"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Saudação -->
+    <div class="hero-greeting">
+      <img src="imagens/associacao.png" alt="Associação Atlética Cocari" class="hero-bg-img">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="greeting-row">
+          <div>
+            <p class="greeting-time" id="greeting-text">Bom dia!</p>
+            <h2 class="greeting-name">Matheus Augusto <span class="wave">👋</span></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="main-area">
+      <div class="page-container">
+
+        <!-- Grid de Ações -->
+        <div class="actions-grid">
+          <button class="action-card action-featured" onclick="navigateTo('spaces')">
+            <div class="action-icon bg-green"><i data-icon="calendar-check"></i></div>
+            <div class="action-label">
+              <strong>Nova Reserva</strong>
+            </div>
+            <i data-icon="chevron-right" class="action-arrow"></i>
+          </button>
+
+          <button class="action-card" onclick="navigateTo('my-bookings')">
+            <div class="action-icon bg-blue"><i data-icon="list-check"></i></div>
+            <div class="action-label">
+              <strong>Minhas Reservas</strong>
+            </div>
+            <i data-icon="chevron-right" class="action-arrow"></i>
+          </button>
+
+          <button class="action-card" onclick="navigateTo('finance')">
+            <div class="action-icon bg-amber"><i data-icon="wallet"></i></div>
+            <div class="action-label">
+              <strong>Financeiro</strong>
+              <span id="badge-finance-alert" class="action-count-badge badge-alert">1 pendência</span>
+            </div>
+            <i data-icon="chevron-right" class="action-arrow"></i>
+          </button>
+
+          <button class="action-card" onclick="navigateTo('profile')">
+            <div class="action-icon bg-slate"><i data-icon="user"></i></div>
+            <div class="action-label">
+              <strong>Meu Perfil</strong>
+            </div>
+            <i data-icon="chevron-right" class="action-arrow"></i>
+          </button>
+        </div>
+
+        <!-- Reservar rápido -->
+        <div class="section-block">
+          <h3 class="quick-title">Reservar rápido</h3>
+          <div class="quick-reserve" id="quick-reserve"></div>
+        </div>
+
+      </div>
+    </main>
+  </section>
+
+  <!-- ==========================================
+    LOCAÇÃO — ESCOLHA DO TIPO DE ESPAÇO
+  =========================================== -->
+  <section id="view-spaces" class="view-screen">
+    <header class="inner-bar">
+      <div class="inner-bar-inner">
+        <button class="back-icon-btn" onclick="navigateTo('home')" aria-label="Voltar ao início"><i
+            data-icon="arrow-left"></i></button>
+        <span class="inner-bar-title">Reservar espaço</span>
+        <div style="width:36px"></div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="page-container">
+        <div id="category-grid" class="category-grid"></div>
+      </div>
+    </main>
+  </section>
+
+  <!-- ==========================================
+    LOCAÇÃO — UNIDADES E DISPONIBILIDADE POR DATA
+  =========================================== -->
+  <section id="view-category" class="view-screen">
+    <header class="inner-bar">
+      <div class="inner-bar-inner">
+        <button class="back-icon-btn" onclick="navigateTo('spaces')" aria-label="Voltar aos espaços"><i
+            data-icon="arrow-left"></i></button>
+        <span class="inner-bar-title" id="cat-title">Espaço</span>
+        <div style="width:36px"></div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="page-container cat-container">
+        <div class="date-bar">
+          <div class="day-picker" id="day-picker"></div>
+          <label class="other-date" title="Escolher outra data">
+            <i data-icon="calendar"></i>
+            <input type="date" id="cat-date-input" onchange="pickCustomDate(this.value)"
+              aria-label="Escolher outra data">
+          </label>
+        </div>
+        <p class="date-selected" id="cat-date-label"></p>
+        <div id="unit-list" class="unit-list"></div>
+      </div>
+    </main>
+  </section>
+  <section id="view-card" class="view-screen">
+    <header class="inner-bar">
+      <div class="inner-bar-inner">
+        <button class="back-icon-btn" onclick="navigateTo('home')"><i data-icon="arrow-left"></i></button>
+        <span class="inner-bar-title">Carteirinha Digital</span>
+        <div style="width:36px"></div>
+      </div>
+    </header>
+
+    <main class="main-area center-area">
+      <div class="pass-wrapper">
+        <div class="pass-card">
+          <div class="pass-top">
+            <img src="imagens/associacao-logo.png" alt="AAC" class="pass-logo">
+            <span class="pass-status">SÓCIO ATIVO</span>
+          </div>
+
+          <div class="pass-hero-strip">
+            <img src="imagens/associacao.png" alt="" class="pass-hero-bg">
+            <div class="pass-hero-overlay"></div>
+            <div class="pass-hero-text">
+              <div class="pass-avatar-big">ML</div>
+              <div>
+                <h3>Matheus Augusto Lopes</h3>
+                <span>Sócio Titular</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pass-data-row">
+            <div class="pass-data-item">
+              <span>MATRÍCULA</span>
+              <strong>0-1106</strong>
+            </div>
+            <div class="pass-data-item">
+              <span>CATEGORIA</span>
+              <strong>Titular</strong>
+            </div>
+            <div class="pass-data-item">
+              <span>VALIDADE</span>
+              <strong>Dez/2026</strong>
+            </div>
+          </div>
+
+          <div class="pass-qr-area">
+            <div
+              style="width:130px;height:130px;background:#f8faf9;border:1px solid #d1ded5;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <i data-icon="qrcode" style="font-size:3.5rem;color:#004d2b;"></i>
+              <small style="font-size:.65rem;font-weight:700;color:#004d2b;margin-top:4px;">TOKEN 01106-AAC</small>
+            </div>
+            <p class="preview-card-note">Apresente na portaria para identificação e acesso ao clube.</p>
+          </div>
+
+          <div class="pass-footer">
+            <img src="imagens/cocari-logo-branca.png" alt="Cocari" class="pass-footer-logo">
+            <span>Cooperativa Agropecuária e Industrial</span>
+          </div>
+        </div>
+
+        <button class="btn-outline-full mt-4" onclick="showToast('Carteirinha salva nas fotos do celular!')">
+          <i data-icon="download"></i> Salvar Carteirinha
+        </button>
+      </div>
+    </main>
+  </section>
+
+  <!-- ==========================================
+    TELA 6: MINHAS RESERVAS
+  =========================================== -->
+  <section id="view-my-bookings" class="view-screen">
+    <header class="inner-bar">
+      <div class="inner-bar-inner">
+        <button class="back-icon-btn" onclick="navigateTo('home')" aria-label="Voltar"><i
+            data-icon="arrow-left"></i></button>
+        <span class="inner-bar-title">Minhas Reservas</span>
+        <div style="width:36px"></div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="page-container">
+        <!-- Abas de Filtro -->
+        <div class="booking-tabs" role="tablist">
+          <button class="booking-tab-btn active" data-tab="todas" onclick="filterBookings('todas', this)">Todas</button>
+          <button class="booking-tab-btn" data-tab="proximas"
+            onclick="filterBookings('proximas', this)">Próximas</button>
+          <button class="booking-tab-btn" data-tab="pendentes" onclick="filterBookings('pendentes', this)">Aguardando
+            Aprovação</button>
+          <button class="booking-tab-btn" data-tab="concluidas"
+            onclick="filterBookings('concluidas', this)">Concluídas</button>
+        </div>
+
+        <!-- Lista dinâmica -->
+        <div id="bookings-list-container"></div>
+      </div>
+    </main>
+  </section>
+
+  <!-- ==========================================
+    TELA 7: FINANCEIRO
+  =========================================== -->
+  <section id="view-finance" class="view-screen">
+    <header class="inner-bar">
+      <div class="inner-bar-inner">
+        <button class="back-icon-btn" onclick="navigateTo('home')" aria-label="Voltar"><i
+            data-icon="arrow-left"></i></button>
+        <span class="inner-bar-title">Pagamentos & PIX</span>
+        <div style="width:36px"></div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="page-container fin-container">
+        <!-- Estatísticas Financeiras -->
+        <div class="finance-stats-grid">
+          <div class="fin-stat-card alert" id="fin-stat-pending-card">
+            <span class="fin-stat-label">Total a Pagar</span>
+            <strong class="fin-stat-val" id="fin-total-pending">R$ 140,00</strong>
+          </div>
+          <div class="fin-stat-card">
+            <span class="fin-stat-label">Quitado neste ano</span>
+            <strong class="fin-stat-val" id="fin-total-paid">R$ 420,00</strong>
+          </div>
+        </div>
+
+        <!-- Abas do Módulo Financeiro -->
+        <div class="booking-tabs" role="tablist">
+          <button class="booking-tab-btn active" data-tab="pendentes"
+            onclick="filterFinance('pendentes', this)">Cobranças Pendentes</button>
+          <button class="booking-tab-btn" data-tab="historico" onclick="filterFinance('historico', this)">Histórico de
+            Pagamentos</button>
+        </div>
+
+        <!-- Conteúdo dinâmico -->
+        <div id="finance-content-container"></div>
+      </div>
+    </main>
+  </section>
+
+  <section id="view-profile" class="view-screen">
+    <header class="inner-bar">
+      <div class="inner-bar-inner">
+        <button class="back-icon-btn" onclick="navigateTo('home')"><i data-icon="arrow-left"></i></button>
+        <span class="inner-bar-title">Meu Perfil</span>
+        <div style="width:36px"></div>
+      </div>
+    </header>
+
+    <main class="main-area">
+      <div class="page-container">
+
+        <!-- Cabeçalho do Perfil (Clean, sem fundo de foto) -->
+        <div class="profile-card-clean">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar-display">
+              <img id="profile-photo-preview" class="profile-photo hidden" alt="Foto de perfil">
+              <span id="profile-avatar-initials" class="profile-avatar-initials">ML</span>
+            </div>
+          </div>
+          <div class="profile-identity-clean">
+            <h2>Matheus Augusto Lopes</h2>
+            <span class="profile-meta-tag">Título 0-1106 · Sócio Titular</span>
+          </div>
+          <div class="profile-photo-actions">
+            <label class="btn-photo-action" for="profile-photo-input">
+              <i data-icon="pen"></i> Alterar foto
+              <input id="profile-photo-input" class="profile-photo-input" type="file" accept="image/*"
+                aria-label="Escolher foto de perfil" onchange="previewProfilePhoto(event)">
+            </label>
+            <button type="button" class="btn-photo-action btn-photo-remove hidden" id="btn-remove-photo" onclick="removeProfilePhoto()">
+              <i data-icon="x"></i> Remover
+            </button>
+          </div>
+        </div>
+        <div class="profile-data-card">
+          <div class="profile-field"><label for="profile-cpf">CPF</label><input id="profile-cpf" value="099.116.479-27"
+              readonly></div>
+          <div class="profile-field"><label for="profile-birth">Data de nascimento</label><input id="profile-birth"
+              value="04/10/2007" readonly></div>
+          <div class="profile-field"><label for="profile-rg">RG</label><input id="profile-rg" value=""
+              autocomplete="off"></div>
+          <div class="profile-field"><label for="profile-phone">Celular / WhatsApp</label><input id="profile-phone"
+              value="(44) 99907-1031" type="tel" autocomplete="tel"></div>
+          <div class="profile-field"><label for="profile-email">E-mail</label><input id="profile-email"
+              value="matheus.augusto5117@gmail.com" type="email" autocomplete="email"></div>
+          <fieldset class="profile-address">
+            <legend>Endereço residencial</legend>
+            <div class="profile-address-grid">
+              <div class="profile-field"><label for="profile-cep">CEP</label><input id="profile-cep" value="86975-000"
+                  autocomplete="postal-code"></div>
+              <div class="profile-field profile-street"><label for="profile-street">Logradouro</label><input
+                  id="profile-street" value="Manoel Antunes Pereira" autocomplete="street-address"></div>
+              <div class="profile-field"><label for="profile-number">Número</label><input id="profile-number"
+                  value="2484"></div>
+              <div class="profile-field"><label for="profile-extra">Complemento</label><input id="profile-extra"
+                  value=""></div>
+              <div class="profile-field"><label for="profile-city">Cidade</label><input id="profile-city"
+                  value="Mandaguari" autocomplete="address-level2"></div>
+              <div class="profile-field"><label for="profile-state">Estado</label><input id="profile-state" value="PR"
+                  autocomplete="address-level1"></div>
+            </div>
+          </fieldset>
+        </div>
+        <form class="profile-form" onsubmit="saveProfileDemo(event)"><button type="submit" class="btn-outline-full"><i
+              data-icon="check"></i> Salvar alterações</button></form> <button class="btn-danger-outline mt-2"
+          onclick="navigateTo('login')">
+          <i data-icon="logout"></i> Sair da conta
+        </button>
+      </div>
+    </main>
+  </section>
+
+
+
+
+
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="bn-tab active" onclick="navigateTo('home')">
+      <i data-icon="house"></i><span>Início</span>
+    </button>
+    <button class="bn-tab" onclick="navigateTo('spaces')">
+      <i data-icon="calendar"></i><span>Reservar</span>
+    </button>
+    <button class="bn-tab bn-center" onclick="navigateTo('profile')" aria-label="Meu Perfil">
+      <div class="bn-fab"><i data-icon="user"></i></div>
+    </button>
+    <button class="bn-tab" onclick="navigateTo('my-bookings')">
+      <i data-icon="bookmark"></i><span>Reservas</span>
+    </button>
+    <button class="bn-tab" onclick="navigateTo('finance')">
+      <i data-icon="wallet"></i><span>Financeiro</span>
+    </button>
+  </nav>
+
+
+  <!-- ==========================================
+    MODAL: DETALHES DA RESERVA
+  =========================================== -->
+  <div id="modal-booking-detail" class="app-modal-overlay hidden"
+    onclick="if(event.target===this)closeModal('modal-booking-detail')">
+    <div class="app-modal">
+      <div class="app-modal-header">
+        <h3 id="mbd-title">Detalhes da Reserva</h3>
+        <button type="button" class="app-modal-close-btn" onclick="closeModal('modal-booking-detail')"><i
+            data-icon="x"></i></button>
+      </div>
+      <div class="app-modal-body">
+        <div class="modal-info-row"><span>Protocolo</span><strong id="mbd-proto"
+            class="bci-proto">#AAC-2026-001</strong></div>
+        <div class="modal-info-row"><span>Espaço</span><strong id="mbd-space">Campo de Futebol 01</strong></div>
+        <div class="modal-info-row"><span>Data & Horário</span><strong id="mbd-datetime">14/10/2026 · 19:30 às
+            21:00</strong></div>
+        <div class="modal-info-row"><span>Status</span><span id="mbd-status-pill"
+            class="status-pill status-pill-aprovada">Aprovada</span></div>
+        <div class="modal-info-row"><span>Valor Cobrado</span><strong id="mbd-val" class="bci-value">R$ 140,00</strong>
+        </div>
+        <div class="modal-info-row"><span>Forma de Pagamento</span><strong id="mbd-payment">PIX</strong></div>
+        <div class="modal-info-row"><span>Titular</span><strong>Matheus Augusto Lopes (0-1106)</strong></div>
+        <div class="modal-info-row"><span>Validação na Portaria</span><strong>Liberada por QR Code</strong></div>
+      </div>
+      <div class="app-modal-footer">
+        <button type="button" class="btn-detail" onclick="closeModal('modal-booking-detail')">Fechar</button>
+        <button type="button" class="btn-pix-pay hidden" id="mbd-btn-pix"
+          onclick="closeModal('modal-booking-detail');openPixModalFromReserva();"><i data-icon="pix"></i> Pagar com
+          PIX</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+    MODAL: PAGAMENTO VIA PIX
+  =========================================== -->
+  <div id="modal-pix" class="app-modal-overlay hidden" onclick="if(event.target===this)closeModal('modal-pix')">
+    <div class="app-modal">
+      <div class="app-modal-header">
+        <h3>Pagamento via PIX</h3>
+        <button type="button" class="app-modal-close-btn" onclick="closeModal('modal-pix')"><i
+            data-icon="x"></i></button>
+      </div>
+      <div class="app-modal-body">
+        <div class="pix-qr-container">
+          <div class="pix-qr-card">
+            <div
+              style="width:160px;height:160px;background:#f8faf9;border:1px solid #d1ded5;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto;">
+              <i data-icon="qrcode" style="font-size:4.5rem;color:#004d2b;"></i>
+              <small style="font-size:.65rem;font-weight:700;color:#004d2b;margin-top:4px;">PIX DINÂMICO AAC</small>
+            </div>
+          </div>
+          <strong id="pix-modal-value" style="font-size:1.4rem;color:#004d2b;font-weight:800;">R$ 140,00</strong>
+          <span style="font-size:.76rem;color:var(--text-2);margin-top:2px;" id="pix-modal-desc">Locação: Campo de
+            Futebol 01</span>
+          <span style="font-size:.7rem;color:#991b1b;margin-top:4px;">Vencimento: Hoje às 23:59</span>
+        </div>
+
+        <label style="font-size:.76rem;font-weight:600;color:var(--text);display:block;margin-bottom:4px;">Código PIX
+          (Copia e Cola)</label>
+        <div class="pix-code-box">
+          <input type="text" id="pix-copy-input" readonly
+            value="00020126580014br.gov.bcb.pix0136associacaococari-pix-cobranca-20265204000053039865406140.005802BR5924ASSOCIAÇÃO ATLETICA COCARI6010MANDAGUARI62070503***6304ABCD">
+          <button type="button" class="btn-copy-code" id="btn-copy-pix-modal" onclick="copyPixCodeModal()"><i
+              data-icon="copy"></i> Copiar</button>
+        </div>
+        <p style="font-size:.72rem;color:var(--text-3);line-height:1.4;margin:6px 0 0;">Abra o aplicativo do seu banco,
+          selecione a opção <strong>PIX Copia e Cola</strong> e cole o código acima para concluir.</p>
+      </div>
+      <div class="app-modal-footer">
+        <button type="button" class="btn-detail" onclick="closeModal('modal-pix')">Fechar</button>
+        <button type="button" class="btn-pix-pay" id="btn-confirm-pix-modal" onclick="confirmPixModal()"><i
+            data-icon="check"></i> Confirmar Pagamento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: confirmar pedido de reserva -->
+  <div id="modal-confirm-booking" class="app-modal-overlay hidden"
+    onclick="if(event.target===this)closeModal('modal-confirm-booking')">
+    <div class="app-modal">
+      <div class="app-modal-header">
+        <h3>Confirmar reserva</h3>
+        <button type="button" class="app-modal-close-btn" onclick="closeModal('modal-confirm-booking')"
+          aria-label="Fechar"><i data-icon="x"></i></button>
+      </div>
+      <div class="app-modal-body">
+        <div class="modal-info-row"><span>Espaço</span><strong id="cb-space"></strong></div>
+        <div class="modal-info-row"><span>Data</span><strong id="cb-date"></strong></div>
+        <div class="modal-info-row"><span>Horário</span><strong id="cb-time"></strong></div>
+        <div class="modal-info-row"><span>Valor</span><strong id="cb-value" class="bci-value"></strong></div>
+        <p class="cb-note" id="cb-note"></p>
+      </div>
+      <div class="app-modal-footer">
+        <button type="button" class="btn-detail" onclick="closeModal('modal-confirm-booking')">Voltar</button>
+        <button type="button" class="btn-pix-pay" onclick="confirmBooking()"><i data-icon="check"></i>
+          Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"><span id="toast-msg"></span></div>
+
+  <!-- Ícones SVG inline (sem CDN, funciona offline) -->
+
+
+  <script src="icons.js"></script>
+  <script src="app.js"></script>
+  <footer class="site-footer"><span>Associação Atlética Cocari · Mandaguari, PR</span><a
+      href="https://www.google.com/maps/search/?api=1&query=Rodovia+BR-376+km+395+Mandaguari+PR" target="_blank"
+      rel="noopener noreferrer">Rodovia BR-376, km 395</a><a href="tel:+554432338839">(44) 3233-8839</a></footer>
+  <a class="whatsapp-float" href="https://wa.me/5544999364314" target="_blank" rel="noopener noreferrer"
+    aria-label="Falar com a secretaria pelo WhatsApp"><i data-icon="whatsapp"></i><span>Fale conosco</span></a>
+</body>
+
+</html>
